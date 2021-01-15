@@ -26,9 +26,9 @@ include "./includes/db.php";
                     </h1>
                 <?php } ?>
                 <?php
-                    $query = "SELECT * from professors ";
-                    $query .= "INNER JOIN category ON category.cat_id = professors.professor_category_id ";
-                    $query .= "WHERE professor_status='Approved';";
+                    $query = "SELECT * from professionals ";
+                    $query .= "INNER JOIN category ON category.cat_id = professionals.professional_category_id ";
+                    $query .= "WHERE professional_status='Approved' ORDER BY professional_id DESC LIMIT 20;";
                     $result = mysqli_query($connection, $query);
                     if(!$result){
                         echo $query;
@@ -41,16 +41,28 @@ include "./includes/db.php";
                 
                 <div class = "prof_info">
                     <div class = "prof_image">
-                        <img src = "./images/<?php echo $row['professor_image']; ?>" width="70vw" class="" />
+                        <img src = "./images/<?php echo $row['professional_image']; ?>" width="70vw" class="" />
                     </div>
                     <div class = "prof_descrip">
-                        <h4><?php echo $row['professor_name'] ?></h4>
-                        <?php echo substr($row['professor_description'], 0, 150) ?><br/>
+                        <h4><?php echo $row['professional_name'] ?></h4>
+                        <?php echo substr($row['professional_description'], 0, 150) ?><br/>
                         <small><b>
-                            <?php echo $row['professor_institute'] ?>, 
+                            <?php echo $row['professional_organization'] ?>, 
                             <?php echo $row['cat_title'] ?>
                         </b></small>
-                        <a class="btn btn-primary" href="post.php?post_id=<?php ?>">
+                        <small><b>
+                            Average Rating : 
+                            <?php 
+                                $total_reviews = $row['reviews_added'];
+                                $ratings_sum = $row['ratings_sum'];
+                                if($total_reviews == 0){
+                                    echo "Unrated<br/>";
+                                }else{
+                                    echo $ratings_sum/$total_reviews;
+                                }
+                            ?>
+                        </b></small>
+                        <a class="btn btn-primary" href="professional.php?prof_id=<?php echo $row['professional_id']; ?>">
                             Rate <span class="glyphicon glyphicon-chevron-right"></span>
                         </a>
                     </div>
