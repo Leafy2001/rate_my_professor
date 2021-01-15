@@ -46,10 +46,9 @@ if(!isset($_GET['cat_id'])){
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['add_date'] ?></p>
                 <hr>
-                <img class="img-responsive" src="images/<?php echo $row['professional_image']; ?>" alt="">
+                <img class="img-responsive" src="images/<?php echo $row['professional_image']; ?>" alt="" width="200">
                 <hr>
                 <p><?php echo substr($row['professional_description'], 0, 150) ?>........</p>
-                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum officiis rerum.</p> -->
                 <a class="btn btn-primary" href="professional.php?prof_id=<?php echo $row['professional_id'] ?>">
                     Read More <span class="glyphicon glyphicon-chevron-right"></span>
                 </a>

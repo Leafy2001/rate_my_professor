@@ -60,7 +60,7 @@ if(isset($_POST['add_professional'])){
     </div>
 
     <div class="form-group">
-        <label for="post_content">Professional Description</label>
+        <label for="professional_description">Professional Description</label>
         <textarea class="form-control" name = "professional_description" id = "" cols = "30" rows = "10"></textarea>
         <script>
             CKEDITOR.replace('professional_description');

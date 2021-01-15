@@ -24,7 +24,7 @@
 
                             switch($source){
                                 case 'add_post': include "./includes/add_professional.php"; break;
-                                case 'edit' : include "./includes/edit_post.php"; break;
+                                case 'edit' : include "./includes/edit_professional.php"; break;
                                 case 'approve' : approve_post(); break;
                                 case 'unapprove' : unapprove_post(); break;
                                 default : include "./includes/view_all_professionals.php";

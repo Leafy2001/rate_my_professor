@@ -18,9 +18,9 @@ if(isset($_GET['delete'])){
             <th>Professional Name</th>
             <th>Rating</th>
             <th>Category</th>
+            <th>Organization</th>
             <th>Status</th>
             <th>Image</th>
-            <!-- <th>Tags</th> -->
             <th>Date</th>
             <th>Reviews</th>
         </tr>

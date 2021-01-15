@@ -66,14 +66,14 @@
 
         $misc_id = $row['cat_id'];
 
-        $query = "SELECT * FROM posts WHERE post_category_id = $del_id";
+        $query = "SELECT * FROM professionals WHERE professional_category_id = $del_id";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ".mysqli_error($connection));
         }
         while($row = mysqli_fetch_assoc($result)){
-            $post_id = $row['post_id'];
-            $q = "UPDATE posts SET post_category_id = $misc_id WHERE post_id = $post_id;";
+            $professional_id = $row['professional_id'];
+            $q = "UPDATE professionals SET professional_category_id = $misc_id WHERE professional_id = $professional_id;";
             $r = mysqli_query($connection, $q);
             if(!$r){
                 die("ERROR ".mysqli_error($connection));
@@ -136,9 +136,9 @@
                     <?php }else{ echo $row['ratings_sum']/$row['reviews_added']; } ?>
                 </td>
                 <td><a href = "../category.php?cat_id=<?php echo $row['cat_id'] ?>"><?php echo $row['cat_title']; ?></a></td>
+                <td><?php echo $row['professional_organization']; ?></td>
                 <td><?php echo $row['professional_status']; ?></td>
                 <td><img src="../images/<?php echo $row['professional_image']; ?>" width = "100" alt = <?php echo $row['professional_name']; ?>/></td>
-                <!-- <td><?php #echo $row['post_tags']; ?></td> -->
                 <td><?php echo $row['add_date']; ?></td>
                 <td><?php echo $row['reviews_added']; ?></td>
                 <td><a href = "professionals.php?delete=<?php echo $row['professional_id'] ?>">X</td>
