@@ -10,7 +10,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../index.php">CMS Front</a>
+        <a class="navbar-brand" href="../index.php">Home</a>
     </div>
 
 
@@ -44,13 +44,13 @@
                 <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
             </li>
             <li>
-                <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
+                <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Professionals <i class="fa fa-fw fa-caret-down"></i></a>
                 <ul id="posts_dropdown" class="collapse">
                     <li>
-                        <a href="./posts.php">View All Posts</a>
+                        <a href="./professionals.php">View All Professionals</a>
                     </li>
                     <li>
-                        <a href="./posts.php?source=add_post">Add Posts</a>
+                        <a href="./professionals.php?source=add_post">Add Professional</a>
                     </li>
                 </ul>
             </li>
@@ -59,7 +59,7 @@
             </li>
             
             <li>
-                <a href="./comments.php"><i class="fa fa-fw fa-file"></i> Comments</a>
+                <a href="./comments.php"><i class="fa fa-fw fa-file"></i> Reviews</a>
             </li>
             <?php if($_SESSION['user_role'] === 'Admin'){ ?>
             <li>

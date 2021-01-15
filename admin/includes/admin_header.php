@@ -38,6 +38,10 @@ if(!isset($_SESSION['user_id'])){
     <![endif]-->
         
     <link href="css/styles.css" rel="stylesheet">
+
+    
+    <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+
 </head>
 
 <body>

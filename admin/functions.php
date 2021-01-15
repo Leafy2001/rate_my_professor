@@ -110,10 +110,11 @@
         }
     }
     
-    function display_all_posts(){
+    function display_all_professionals(){
         global $connection;
         $username = $_SESSION['username'];
-        $query = "SELECT * FROM posts INNER JOIN category ON posts.post_category_id = category.cat_id ";
+        $query = "SELECT * FROM professionals INNER JOIN category ON ";
+        $query .= "professionals.professional_category_id = category.cat_id ";
         if($_SESSION['user_role'] !== 'Admin'){
             $query .= "WHERE (post_author = '$username');";
         }
@@ -126,21 +127,26 @@
             while($row = mysqli_fetch_assoc($result)){
     ?>      
             <tr>
-                <td><?php echo $row['post_id']; ?></td>
-                <td><?php echo $row['post_author']; ?></td>
-                <td><a href = "../post.php?post_id=<?php echo $row['post_id'] ?>"><?php echo $row['post_title']; ?></a></td>
+                <td><?php echo $row['professional_id']; ?></td>
+                <!-- <td><?php #echo $row['post_author']; ?></td> -->
+                <td><a href = "../professional.php?prof_id=<?php echo $row['professional_id'] ?>"><?php echo $row['professional_name']; ?></a></td>
+                <td>
+                    <?php if($row['reviews_added'] == 0){ ?>
+                        Unrated
+                    <?php }else{ echo $row['ratings_sum']/$row['reviews_added']; } ?>
+                </td>
                 <td><a href = "../category.php?cat_id=<?php echo $row['cat_id'] ?>"><?php echo $row['cat_title']; ?></a></td>
-                <td><?php echo $row['post_status']; ?></td>
-                <td><img src="../images/<?php echo $row['post_image']; ?>" width = "100" alt = <?php echo $row['post_image']; ?>/></td>
-                <td><?php echo $row['post_tags']; ?></td>
-                <td><?php echo $row['post_date']; ?></td>
-                <td><?php echo $row['post_comment_count']; ?></td>
-                <td><a href = "posts.php?delete=<?php echo $row['post_id'] ?>">X</td>
-                <td><a href = "posts.php?source=edit&post_id=<?php echo $row['post_id'] ?>">Update</td>
+                <td><?php echo $row['professional_status']; ?></td>
+                <td><img src="../images/<?php echo $row['professional_image']; ?>" width = "100" alt = <?php echo $row['professional_name']; ?>/></td>
+                <!-- <td><?php #echo $row['post_tags']; ?></td> -->
+                <td><?php echo $row['add_date']; ?></td>
+                <td><?php echo $row['reviews_added']; ?></td>
+                <td><a href = "professionals.php?delete=<?php echo $row['professional_id'] ?>">X</td>
+                <td><a href = "professionals.php?source=edit&prof_id=<?php echo $row['professional_id'] ?>">Update</td>
 
                 <?php if($_SESSION['user_role'] === 'Admin'){ ?>
-                    <td><a href = "posts.php?source=approve&post_id=<?php echo $row['post_id'];?>">Approve</td>
-                    <td><a href = "posts.php?source=unapprove&post_id=<?php echo $row['post_id'];?>">Unapprove</td>
+                    <td><a href = "professionals.php?source=approve&prof_id=<?php echo $row['professional_id'];?>">Approve</td>
+                    <td><a href = "professionals.php?source=unapprove&prof_id=<?php echo $row['professional_id'];?>">Unapprove</td>
                 <?php } ?>
             </tr>
     <?php    

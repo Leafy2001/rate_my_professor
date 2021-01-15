@@ -15,19 +15,19 @@ if(isset($_GET['delete'])){
     <thead>
         <tr>
             <th>Id</th>
-            <th>Author</th>
-            <th>Title</th>
+            <th>Professional Name</th>
+            <th>Rating</th>
             <th>Category</th>
             <th>Status</th>
             <th>Image</th>
-            <th>Tags</th>
+            <!-- <th>Tags</th> -->
             <th>Date</th>
-            <th>Comments</th>
+            <th>Reviews</th>
         </tr>
     </thead>
     <tbody>
 
-        <?php display_all_posts(); ?>
+        <?php display_all_professionals(); ?>
         
     </tbody>
 </table>

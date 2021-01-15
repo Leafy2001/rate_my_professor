@@ -44,8 +44,8 @@ include "./includes/db.php";
                         <img src = "./images/<?php echo $row['professional_image']; ?>" width="70vw" class="" />
                     </div>
                     <div class = "prof_descrip">
-                        <h4><?php echo $row['professional_name'] ?></h4>
-                        <?php echo substr($row['professional_description'], 0, 150) ?><br/>
+                        <h4><u><?php echo $row['professional_name'] ?></u></h4>
+                        <?php echo substr($row['professional_description'], 0, 150) ?>.....<br/>
                         <small><b>
                             <?php echo $row['professional_organization'] ?>, 
                             <?php echo $row['cat_title'] ?>
