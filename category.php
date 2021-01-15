@@ -30,25 +30,29 @@ if(!isset($_GET['cat_id'])){
                 <?php } ?>
                 <?php
                     $cat_id = $_GET['cat_id'];
-                    $query = "SELECT * from posts WHERE (post_category_id = $cat_id AND post_status = 'Approved')";
+                    $query = "SELECT * from professionals WHERE (professional_category_id = $cat_id AND professional_status = 'Approved')";
                     $result = mysqli_query($connection, $query);
                     while($row = mysqli_fetch_assoc($result)){
                 ?>
 
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="post.php?post_id=<?php echo $row['post_id'] ?>"><?php echo $row['post_title'] ?></a>
+                    <a href="professional.php?prof_id=<?php echo $row['professional_id'] ?>">
+                        <?php echo $row['professional_name'] ?>
+                    </a>
                 </h2>
                 <p class="lead">
-                    <h3 style="color:DeepPink;">by <?php echo $row['post_author'] ?></h3>
+                    <h3 style="color:DeepPink;"><?php echo $row['professional_organization'] ?></h3>
                 </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['post_date'] ?></p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['add_date'] ?></p>
                 <hr>
-                <img class="img-responsive" src="images/<?php echo $row['post_image']; ?>" alt="">
+                <img class="img-responsive" src="images/<?php echo $row['professional_image']; ?>" alt="">
                 <hr>
-                <p><?php echo substr($row['post_content'], 0, 150) ?>........</p>
+                <p><?php echo substr($row['professional_description'], 0, 150) ?>........</p>
                 <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum officiis rerum.</p> -->
-                <a class="btn btn-primary" href="post.php?post_id=<?php echo $row['post_id'] ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-primary" href="professional.php?prof_id=<?php echo $row['professional_id'] ?>">
+                    Read More <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
                 
                 <hr>
                 <?php
