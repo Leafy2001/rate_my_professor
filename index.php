@@ -26,18 +26,35 @@ include "./includes/db.php";
                     </h1>
                 <?php } ?>
                 <?php
-                    $query = "SELECT * from professors WHERE professor_status='Approved'";
+                    $query = "SELECT * from professors ";
+                    $query .= "INNER JOIN category ON category.cat_id = professors.professor_category_id ";
+                    $query .= "WHERE professor_status='Approved';";
                     $result = mysqli_query($connection, $query);
                     if(!$result){
+                        echo $query;
                         die("ERROR ".mysqli_error($connection));
                     }
                     while($row = mysqli_fetch_assoc($result)){
                 ?>
 
                 <!-- Professor LIST -->
-                <h4><?php echo $row['professor_name'] ?></h4>
                 
-                
+                <div class = "prof_info">
+                    <div class = "prof_image">
+                        <img src = "./images/<?php echo $row['professor_image']; ?>" width="70vw" class="" />
+                    </div>
+                    <div class = "prof_descrip">
+                        <h4><?php echo $row['professor_name'] ?></h4>
+                        <?php echo substr($row['professor_description'], 0, 150) ?><br/>
+                        <small><b>
+                            <?php echo $row['professor_institute'] ?>, 
+                            <?php echo $row['cat_title'] ?>
+                        </b></small>
+                        <a class="btn btn-primary" href="post.php?post_id=<?php ?>">
+                            Rate <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
                 <hr>
                 <?php
                     }
