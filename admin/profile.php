@@ -17,8 +17,6 @@ if(isset($_POST['update_user'])){
         $select_img = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($select_img);
         $new_name = $row['user_image'];
-        $orignal_password = $row['user_password'];
-        $salt = $row['user_randSalt'];
     }else{
         $milliseconds = round(microtime(true) * 1000);
         $new_name = $milliseconds.$user_image;
@@ -26,8 +24,16 @@ if(isset($_POST['update_user'])){
     }
 
     if(empty($user_password)){
+        $query = "SELECT * FROM users WHERE user_id = $user_id LIMIT 1";
+        $result = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($result);
+        $orignal_password = $row['user_password'];
         $user_password = $orignal_password;
     }else{
+        $query = "SELECT user_randSalt FROM users WHERE user_id = $user_id LIMIT 1";
+        $result = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($result);
+        $salt = $row['user_randSalt'];
         $user_password = crypt($user_password, $salt);
     }
 
@@ -40,11 +46,12 @@ if(isset($_POST['update_user'])){
     $query .= "user_image = '$new_name', ";
     $query .= "user_password = '$user_password' ";
     $query .= "WHERE user_id = $user_id;";
-    
+    // echo $query;
     $result = mysqli_query($connection, $query);
     if(!$result){
         die("ERROR OCCURED ".mysqli_error($connection));
     }
+    
     $_SESSION['username'] = $username;
     $_SESSION['user_firstname'] = $user_firstname;
     $_SESSION['user_lastname'] = $user_lastname;

@@ -58,7 +58,24 @@ include "./includes/db.php";
                                 if($total_reviews == 0){
                                     echo "Unrated<br/>";
                                 }else{
-                                    echo $ratings_sum/$total_reviews;
+                                    $stars = $ratings_sum/$total_reviews;
+                                    echo number_format($stars, 2)."/10.00 &nbsp; (".$row['reviews_added'].")<br/>";
+                                    for($i = 1; $i <= floor($stars); $i++){
+                                        ?>
+                                        <img src = "./images/front_images/full start.png" alt="f_s" width="15px"/>
+                                        <?php
+                                    }
+                                    if(floor($stars) != $stars){
+                                        ?>
+                                        <img src = "./images/front_images/half filled str.png" alt = "h_s" width = "15px"/>
+                                        <?php
+                                    }
+                                    // echo "<h1>$stars-ceil($stars)</h1>";
+                                    for($i = 1; $i <= 10-ceil($stars); $i++){
+                                        ?>
+                                        <img src = "./images/front_images/empty star.png" alt = "e_s" width = "15px" />
+                                        <?php
+                                    }
                                 }
                             ?>
                         </b></small>

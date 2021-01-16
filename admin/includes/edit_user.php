@@ -1,6 +1,7 @@
 <?php
 if(isset($_POST['update_user'])){
     $user_id = $_GET['user_id'];
+
     $username = $_POST['username'];
     $user_firstname = $_POST['user_firstname'];
     $user_lastname = $_POST['user_lastname'];
@@ -18,8 +19,6 @@ if(isset($_POST['update_user'])){
         $select_img = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($select_img);
         $new_name = $row['user_image'];
-        $orignal_password = $row['user_password'];
-        $salt = $row['user_randSalt'];
     }else{
         $milliseconds = round(microtime(true) * 1000);
         $new_name = $milliseconds.$user_image;
@@ -27,8 +26,16 @@ if(isset($_POST['update_user'])){
     }
 
     if(empty($user_password)){
+        $query = "SELECT * FROM users WHERE user_id = $user_id LIMIT 1";
+        $result = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($result);
+        $orignal_password = $row['user_password'];
         $user_password = $orignal_password;
     }else{
+        $query = "SELECT user_randSalt FROM users WHERE user_id = $user_id LIMIT 1";
+        $result = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($result);
+        $salt = $row['user_randSalt'];
         $user_password = crypt($user_password, $salt);
     }
 
@@ -81,7 +88,7 @@ if(isset($_GET['user_id'])){
     </div>
 
     <div class="form-group">
-        <label for="author">Password</label>
+        <label for="user_password">Password</label>
         <input type="text" class="form-control" name = "user_password"/>
     </div>
 

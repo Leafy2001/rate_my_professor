@@ -1,12 +1,12 @@
 <?php
 if(isset($_GET['delete'])){
     $p_id = $_GET['delete'];
-    $query = "DELETE FROM posts WHERE post_id = $p_id";
+    $query = "DELETE FROM professionals WHERE professional_id = $p_id";
     $result = mysqli_query($connection, $query);
     if(!$result){
         die("SERVICE UNAVAILABLE ". mysqli_error($connection));
     }
-    header("Location: posts.php");
+    header("Location: professionals.php");
 }
 ?>
 

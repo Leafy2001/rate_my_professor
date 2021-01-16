@@ -112,11 +112,11 @@
     
     function display_all_professionals(){
         global $connection;
-        $username = $_SESSION['username'];
+        $user_id = $_SESSION['user_id'];
         $query = "SELECT * FROM professionals INNER JOIN category ON ";
         $query .= "professionals.professional_category_id = category.cat_id ";
         if($_SESSION['user_role'] !== 'Admin'){
-            $query .= "WHERE (post_author = '$username');";
+            $query .= "WHERE (added_by = $user_id);";
         }
         $result = mysqli_query($connection, $query);
         if(!$result){
@@ -133,7 +133,7 @@
                 <td>
                     <?php if($row['reviews_added'] == 0){ ?>
                         Unrated
-                    <?php }else{ echo $row['ratings_sum']/$row['reviews_added']; } ?>
+                    <?php }else{ echo number_format($row['ratings_sum']/$row['reviews_added'], 2); } ?>
                 </td>
                 <td><a href = "../category.php?cat_id=<?php echo $row['cat_id'] ?>"><?php echo $row['cat_title']; ?></a></td>
                 <td><?php echo $row['professional_organization']; ?></td>
@@ -194,35 +194,35 @@
         }
     }
 
-    function approve_post(){
+    function approve_professional(){
         global $connection;
-        if(!$_GET['post_id'] || $_SESSION['user_role'] !== 'Admin'){
-            header("Location: posts.php");
+        if(!$_GET['prof_id'] || $_SESSION['user_role'] !== 'Admin'){
+            header("Location: professionals.php");
             die;
         }
-        $post_id = $_GET['post_id'];
-        $query = "UPDATE posts SET post_status = 'Approved' WHERE post_id = $post_id";
+        $prof_id = $_GET['prof_id'];
+        $query = "UPDATE professionals SET professional_status = 'Approved' WHERE professional_id = $prof_id";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ". mysqli_error($connection));
         }
-        header("Location: posts.php");
+        header("Location: professionals.php");
         die;
     }
 
-    function unapprove_post(){
+    function unapprove_professional(){
         global $connection;
-        if(!$_GET['post_id'] || $_SESSION['user_role'] !== 'Admin'){
-            header("Location: posts.php");
+        if(!$_GET['prof_id'] || $_SESSION['user_role'] !== 'Admin'){
+            header("Location: professionals.php");
             die;
         }
-        $post_id = $_GET['post_id'];
-        $query = "UPDATE posts SET post_status = 'Unapproved' WHERE post_id = $post_id";
+        $prof_id = $_GET['prof_id'];
+        $query = "UPDATE professionals SET professional_status = 'Unapproved' WHERE professional_id = $prof_id";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ". mysqli_error($connection));
         }
-        header("Location: posts.php");
+        header("Location: professionals.php");
         die;
     }
 
@@ -278,6 +278,7 @@
         global $connection;
         $user_id = $_SESSION['user_id'];
         $query = "SELECT * FROM users WHERE user_id != $user_id AND user_role != 'Admin';";
+        #WHERE user_id != $user_id AND user_role != 'Admin';
         $result = mysqli_query($connection, $query);
         if(!$result){
             die ("SERVICE UNAVAILABLE ".mysqli_error($connection));
