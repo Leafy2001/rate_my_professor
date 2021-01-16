@@ -28,7 +28,7 @@ include "./includes/db.php";
                 <?php
                     $query = "SELECT * from professionals ";
                     $query .= "INNER JOIN category ON category.cat_id = professionals.professional_category_id ";
-                    $query .= "WHERE professional_status='Approved' ORDER BY professional_id DESC LIMIT 20;";
+                    $query .= "WHERE professional_status='Approved' ORDER BY reviews_added DESC LIMIT 20;";
                     $result = mysqli_query($connection, $query);
                     if(!$result){
                         echo $query;

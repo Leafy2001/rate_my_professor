@@ -21,6 +21,7 @@
 <?php if(!isset($_SESSION['user_id'])){ ?>
 <div class="well">
     <h4>Login</h4>
+    <?php #echo "<h1>".$_SERVER['REQUEST_URI']."</h1>" ?>
     <form action = "includes/login.php" method = "post">
         <div class="form-group">
             <input name = "username" placeholder="Username" type="text" class="form-control">

@@ -1,5 +1,7 @@
 <?php ob_start(); session_start(); include "db.php";
 
+$came_from = $_SERVER['HTTP_REFERER'];
+
 if(isset($_SESSION['user_id'])){
     $_SESSION['user_id'] = null;
     $_SESSION['username'] = null;
@@ -11,5 +13,5 @@ if(isset($_SESSION['user_id'])){
     $_SESSION['user_password'] = null;
     
 }
-    header("Location: ../index.php");
+    header("Location: $came_from");
 ?>

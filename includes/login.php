@@ -2,6 +2,9 @@
 session_start();
 include "./db.php"; 
 
+
+$came_from = $_SERVER['HTTP_REFERER'];
+
 if(isset($_POST['Login'])){
     $username = mysqli_real_escape_string($connection, $_POST['username']);
     $password = mysqli_real_escape_string($connection, $_POST['password']);
@@ -30,7 +33,7 @@ if(isset($_POST['Login'])){
     $password = crypt($password, $user_randSalt);
 
     if($db_username !== $username || $db_password !== $password){
-        header("Location: ../index.php");
+        header("Location: $came_from");
         die;
     }
 
@@ -41,10 +44,10 @@ if(isset($_POST['Login'])){
     $_SESSION['user_email'] = $user_email;
     $_SESSION['user_image'] = $user_image;
     $_SESSION['user_role'] = $user_role;
-
-    header("Location: ../admin/index.php");
+    // echo $came_from;
+    header("Location: $came_from");
 }else{
-    header("Location: index.php");
+    header("Location: $came_from");
 }
 
 ?>
