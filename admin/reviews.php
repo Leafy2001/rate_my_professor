@@ -23,10 +23,9 @@
                         }
 
                         switch($source){
-                            case 'add_post': include "./includes/add_post.php"; break;
-                            case 'approve' : approve_comment(); break;
-                            case 'unapprove' : unapprove_comment(); break;
-                            default : include "./includes/view_all_comments.php";
+                            case 'approve' : approve_review(); break;
+                            case 'unapprove' : unapprove_review(); break;
+                            default : include "./includes/view_all_reviews.php";
                         }
                     ?>
 

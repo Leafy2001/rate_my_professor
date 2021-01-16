@@ -45,3 +45,9 @@ if(!isset($_SESSION['user_id'])){
 </head>
 
 <body>
+<?php 
+if(!isset($_SESSION['user_id'])){
+    header("Location: ../index.php");
+}
+
+?>

@@ -15,7 +15,7 @@ if(isset($_GET['delete'])){
         die("SERVICE UNAVAILABLE ". mysqli_error($connection));
     }
 
-    header("Location: comments.php");
+    header("Location: reviews.php");
 }
 ?>
 
@@ -23,17 +23,16 @@ if(isset($_GET['delete'])){
     <thead>
         <tr>
             <th>Id</th>
-            <th>Author</th>
-            <th>Comment</th>
-            <th>Email</th>
-            <th>Post</th>
-            <th>Status</th>
+            <th>On Professional</th>
+            <th>By User</th>
+            <th>Rating</th>
+            <th>Content</th>
             <th>Date</th>
         </tr>
     </thead>
     <tbody>
 
-        <?php display_all_comments(); ?>
+        <?php display_all_reviews(); ?>
         
     </tbody>
 </table>

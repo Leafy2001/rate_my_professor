@@ -59,7 +59,7 @@
             </li>
             
             <li>
-                <a href="./comments.php"><i class="fa fa-fw fa-file"></i> Reviews</a>
+                <a href="./reviews.php"><i class="fa fa-fw fa-file"></i> Reviews</a>
             </li>
             <?php if($_SESSION['user_role'] === 'Admin'){ ?>
             <li>

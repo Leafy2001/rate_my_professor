@@ -156,13 +156,15 @@
         }
     }
 
-    function display_all_comments(){
+    function display_all_reviews(){
         global $connection;
-        $username = $_SESSION['username'];
+        $user_id = $_SESSION['user_id'];
 
-        $query = "SELECT * FROM comments INNER JOIN posts ON comments.comment_post_id = posts.post_id ";
+        $query = "SELECT * FROM reviews "; 
+        $query .= "INNER JOIN professionals ON reviews.review_professional_id = professionals.professional_id ";
+        $query .= "INNER JOIN users ON reviews.review_user_id = users.user_id ";
         if($_SESSION['user_role'] !== 'Admin'){
-            $query .= "WHERE comment_author = '$username';";
+            $query .= "WHERE review_user_id = '$user_id';";
         }
         
         $result = mysqli_query($connection, $query);
@@ -174,19 +176,19 @@
             while($row = mysqli_fetch_assoc($result)){
     ?>      
             <tr>
-                <td><?php echo $row['comment_id']; ?></td>
-                <td><?php echo $row['comment_author']; ?></td>
-                <td><?php echo $row['comment_content']; ?></td>
-                <td><?php echo $row['comment_email']; ?></td>
-                <td><a href = "../post.php?post_id=<?php echo $row['post_id'] ?>"><?php echo $row['post_title']; ?></a></td>
-                <td><?php echo $row['comment_status']; ?></td>
-                <td><?php echo $row['comment_date']; ?></td>
-                
-                <td><a href = "comments.php?delete=<?php echo $row['comment_id']?>&post_id=<?php echo $row['post_id'];?>">X</td>
+                <td><?php echo $row['review_id']; ?></td>
+                <td><?php echo $row['professional_name']; ?></td>
+                <td><?php echo $row['username']; ?></td>
+                <td><?php echo $row['review_rating']; ?></td>
+                <td><?php echo $row['review_content']; ?></td>
+                <td><?php echo $row['review_date']; ?></td>
+                <td><?php echo $row['review_status']; ?></td>
+
+                <td><a href = "reviews.php?delete=<?php echo $row['review_id']?>&prof_id=<?php echo $row['review_professional_id'];?>">X</td>
                 
             <?php if($_SESSION['user_role'] === 'Admin'){ ?>
-                <td><a href = "comments.php?source=approve&comment_id=<?php echo $row['comment_id'];?>&post_id=<?php echo $row['post_id'];?>">Approve</td>
-                <td><a href = "comments.php?source=unapprove&comment_id=<?php echo $row['comment_id']?>&post_id=<?php echo $row['post_id'];?>">Unapprove</td>
+                <td><a href = "reviews.php?source=approve&review_id=<?php echo $row['review_id'];?>&prof_id=<?php echo $row['review_professional_id'];?>">Approve</td>
+                <td><a href = "reviews.php?source=unapprove&review_id=<?php echo $row['review_id']?>&prof_id=<?php echo $row['review_professional_id'];?>">Unapprove</td>
             <?php } ?>
             </tr>
     <?php    
@@ -226,51 +228,69 @@
         die;
     }
 
-    function approve_comment(){
+    function approve_review(){
         global $connection;
-        if(!$_GET['comment_id'] || $_SESSION['user_role'] !== 'Admin'){
-            header("Location: comments.php");
+        if(!$_GET['review_id'] || $_SESSION['user_role'] !== 'Admin'){
+            header("Location: reviews.php");
             die;
         }
-        $comment_id = $_GET['comment_id'];
-        $post_id = $_GET['post_id'];
-        $query = "UPDATE comments SET comment_status = 'Approved' WHERE comment_id = $comment_id";
+        $review_id = $_GET['review_id'];
+        $prof_id = $_GET['prof_id'];
+
+        $query = "SELECT * from reviews WHERE review_id = $review_id LIMIT 1;";
+        $result = mysqli_query($connection, $query);
+        if(!$result){die("ERROR ".mysqli_error($connection));}
+        $row = mysqli_fetch_assoc($result);
+        if($row['review_status'] == 'Approved'){header("Location: reviews.php");die;}
+
+        $review_rating = $row['review_rating'];
+
+        $query = "UPDATE reviews SET review_status = 'Approved' WHERE review_id = $review_id";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ". mysqli_error($connection));
         }
 
-        $query = "UPDATE posts SET post_comment_count = post_comment_count+1 WHERE post_id = $post_id";
+        $query = "UPDATE professionals SET reviews_added = reviews_added + 1, ratings_sum = ratings_sum + $review_rating WHERE professional_id = $prof_id";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ". mysqli_error($connection));
         }
 
-        header("Location: comments.php");
+        header("Location: reviews.php");
         die;
     }
 
-    function unapprove_comment(){
+    function unapprove_review(){
         global $connection;
-        if(!$_GET['comment_id'] || $_SESSION['user_role'] !== 'Admin'){
-            header("Location: comments.php");
+        if(!$_GET['review_id'] || $_SESSION['user_role'] !== 'Admin'){
+            header("Location: reviews.php");
             die;
         }
-        $comment_id = $_GET['comment_id'];
-        $post_id = $_GET['post_id'];
-        $query = "UPDATE comments SET comment_status = 'Unapproved' WHERE comment_id = $comment_id";
+        $review_id = $_GET['review_id'];
+        $prof_id = $_GET['prof_id'];
+
+        $query = "SELECT * from reviews WHERE review_id = $review_id LIMIT 1;";
         $result = mysqli_query($connection, $query);
-        if(!$result){
-            die("ERROR ". mysqli_error($connection));
-        }
-        
-        $query = "UPDATE posts SET post_comment_count = post_comment_count-1 WHERE post_id = $post_id";
+        if(!$result){die("ERROR ".mysqli_error($connection));}
+        $row = mysqli_fetch_assoc($result);
+        if($row['review_status'] == 'Unapproved'){header("Location: reviews.php");die;}
+
+        $review_rating = $row['review_rating'];
+
+        $query = "UPDATE reviews SET review_status = 'Unapproved' WHERE review_id = $review_id";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ". mysqli_error($connection));
         }
 
-        header("Location: comments.php");
+        $query = "UPDATE professionals SET reviews_added = reviews_added - 1, ratings_sum = ratings_sum - $review_rating WHERE professional_id = $prof_id";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            die("ERROR ". mysqli_error($connection));
+        }
+
+        header("Location: reviews.php");
         die;
     }
 
